@@ -1,0 +1,36 @@
+---
+ - hosts: dev
+   user: crm
+   become: yes
+   connection: ssh
+   gather_facts: yes
+   tasks:
+    - name: install java  11
+      command: sudo amazon-linux-extras install java-openjdk11=latest -y
+    - name: install docker
+      action: yum pkg=docker state=present
+    - name: start docker
+      action: service name=docker state=started
+    - name: install git
+      action: yum pkg=git state=present
+    - name: install docker compose
+      remote_user: crm
+      get_url:
+       url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+       dest: /usr/local/bin/docker-compose
+       mode: 'u+x,g+x'
+       remote_src: yes
+    - name: docker-compose install-2
+      command: sudo chmod +x /usr/local/bin/docker-compose
+    - name: docker-compose-ln
+      action: file src=/usr/local/bin/docker-compose dest=/usr/bin/docker-compose state=link force=yes
+    - name: make directory
+      file:
+       path: /mnt/chetan
+       state: directory
+    - name: change ownership of the file 
+      file:
+        path: /mnt
+        owner: crm
+        group: crm
+        recurse: yes
