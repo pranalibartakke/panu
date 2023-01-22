@@ -5,7 +5,7 @@
    connection: ssh
    gather_facts: yes
    tasks:
-    - name: install java 11
+    - name: install java  11
       command: sudo amazon-linux-extras install java-openjdk11=latest -y
     - name: install docker
       action: yum pkg=docker state=present
