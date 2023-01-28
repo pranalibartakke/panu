@@ -2,7 +2,7 @@ version: '3'
 services:
   tomcat:
     build:
-      context: /mnt/chetan/
+      context: /mnt/compose/panu
       image: server-1
       ports:
         - "8082-8083:8080"
